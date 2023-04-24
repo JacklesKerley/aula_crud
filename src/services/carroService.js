@@ -21,5 +21,32 @@ module.exports = {
                 }
             })
         })
+    },
+
+    inserir: (modelo, placa) => {
+        return new Promise((aceito, rejeitado) => {
+            db.query("Insert into carros (modelo, placa) values (?, ?)", [modelo, placa], (error, results) => {
+                if (error) { rejeitado(error); return; }
+                aceito(results.insertCodigo)
+            })
+        })
+    },
+
+    alterar: (codigo, modelo, placa) => {
+        return new Promise((aceito, rejeitado) => {
+            db.query("update carros set modelo =?, placa =? where codigo =?", [modelo, placa, codigo], (error, results) => {
+                if (error) { rejeitado(error); return; }
+                aceito(results)
+            })
+        })
+    },
+
+    excluir: (codigo) => {
+        return new Promise((aceito, rejeitado)=> {
+            db.query("DELETE FROM carros WHERE codigo = ?", [codigo], (error, results)=> {
+                if (error) { rejeitado(error); return; }
+                aceito(results)
+            })
+        })
     }
 }
